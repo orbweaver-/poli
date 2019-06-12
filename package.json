@@ -1,0 +1,25 @@
+{
+  "name": "poli",
+  "version": "1.0.0",
+  "description": "A Political AI",
+  "main": "main.ts",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbweaver-/poli.git"
+  },
+  "author": "Colton Clemmer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orbweaver-/poli/issues"
+  },
+  "homepage": "https://github.com/orbweaver-/poli#readme",
+  "dependencies": {
+    "fetch": "^1.1.0",
+    "lodash": "^4.17.11",
+    "newsapi": "^2.4.0",
+    "parse5": "^5.1.0"
+  }
+}
