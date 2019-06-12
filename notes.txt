@@ -1,0 +1,32 @@
+Commands: 
+announce: look for source first and search keywords after in the current sentence
+EG: it was announced by the Wall Street Journal that President Trump is launching massive antitrust probe not just of Google but of Facebook and others now
+Source: Wall Street Journal
+Keywords: President Trump, antitrust, probe, Google, Facebook
+
+Article 1:
+President, 10
+Trump, 5
+antitrust, 
+
+06a1376af2ff4519b88341d291191fe3
+
+articles:
+[
+    {
+        articleName: string // site name, date, and article name
+        articleUrl: string
+        quotes: string[]
+        score: number,
+        keywords: 
+        [
+            {
+                name: string
+                occurrences: number
+            }
+        ]
+    }
+]
+
+score: 
+number of hits for each keyword

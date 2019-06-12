@@ -1,8 +1,10 @@
-const NewsAPI = require('newsapi');
+const NewsAPI = require('newsapi')
 const fetch = require('fetch')
 const { parse } = require('parse5')
 const { filter, each, find, map, countBy, sumBy } = require('lodash')
-const newsapi = new NewsAPI('06a1376af2ff4519b88341d291191fe3');
+const apikey = process.argv[2]
+if (apikey === undefined) return console.error('News API key must be first argument')
+const newsapi = new NewsAPI(apikey)
 
 function getNodes(document) {
     const nodes = []
@@ -38,8 +40,17 @@ newsapi.v2.everything({
             const textNodes = getNodes(parse(body.toString()))
             const articlekeywords = map(keywords, (kw) => ({ keyword: kw, occurrences: 0 }))
             const qoutes = map(filter(textNodes, (node) => find(node.split(' '), (word) => find(keywordTests, (keywordTest) => {
-                if (keywordTest.test(word.toLowerCase())) find(articlekeywords, (kw) => keywordTest.test(kw.keyword.toLowerCase())).occurrences++
-                return keywordTest.test(word.toLowerCase())
+                const sanitizedWord = word.replace(/[^a-zA-Z ]/g, "")
+                const hasKeyword = keywordTest.test(sanitizedWord.toLowerCase())
+                if (hasKeyword) {
+                    for (let i = 0; i < articlekeywords.length;i++) {
+                        const kw = articlekeywords[i]
+                        if (keywordTest.test(kw.keyword.toLowerCase())) {
+                            articlekeywords[i].occurrences++
+                        }
+                    }
+                }
+                return hasKeyword
             }))), (qoute) => {
                 let kw = filter(map(keywords, (keyword) => ({
                     keyword: keyword,
@@ -58,7 +69,7 @@ newsapi.v2.everything({
                 articleName: article.source.name,
                 articleUrl: article.url,
                 qoutes,
-                keywords: articlekeywords
+                keywords: filter(articlekeywords, (kw) => kw.occurrences > 0)
             }
             articles.push(articleData)
             console.log(articleData)
