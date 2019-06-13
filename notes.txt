@@ -30,3 +30,7 @@ articles:
 
 score: 
 number of hits for each keyword
+
+
+Diagram sentences for better input
+https://www.link.cs.cmu.edu/link/index.html

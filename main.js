@@ -1,5 +1,8 @@
 const NewsAPI = require('newsapi')
 const fetch = require('fetch')
+const { createHash } = require('crypto')
+const jsonfile = require('jsonfile')
+const fs = require('fs')
 const { parse } = require('parse5')
 const { filter, each, find, map, countBy, sumBy } = require('lodash')
 const apikey = process.argv[2]
@@ -26,53 +29,95 @@ function getNodes(document) {
     return nodes
 }
 
-const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
-const keywordTests = map(keywords, (kw) => new RegExp('.*' + kw + '.*', 'g'))
-const articles = []
-newsapi.v2.everything({
-  q: keywords.join(' '),
-  from: '2019-05-30',
-  pageSize: 5,
-  sortBy: 'relevancy'
-}).then(response => {
-    each(response.articles, (article) => {
-        fetch.fetchUrl(article.url, (error, meta, body) => {
-            const textNodes = getNodes(parse(body.toString()))
-            const articlekeywords = map(keywords, (kw) => ({ keyword: kw, occurrences: 0 }))
-            const qoutes = map(filter(textNodes, (node) => find(node.split(' '), (word) => find(keywordTests, (keywordTest) => {
-                const sanitizedWord = word.replace(/[^a-zA-Z ]/g, "")
-                const hasKeyword = keywordTest.test(sanitizedWord.toLowerCase())
-                if (hasKeyword) {
-                    for (let i = 0; i < articlekeywords.length;i++) {
-                        const kw = articlekeywords[i]
-                        if (keywordTest.test(kw.keyword.toLowerCase())) {
-                            articlekeywords[i].occurrences++
-                        }
-                    }
+function getArticleData(article, body, keywords) {
+    const keywordTests = map(keywords, (kw) => new RegExp('.*' + kw + '.*', 'g'))
+    const textNodes = getNodes(parse(body.toString()))
+    const articlekeywords = map(keywords, (kw) => ({ keyword: kw, occurrences: 0 }))
+    const qoutes = map(filter(textNodes, (node) => find(node.split(' '), (word) => find(keywordTests, (keywordTest) => {
+        const sanitizedWord = word.replace(/[^a-zA-Z ]/g, "")
+        const hasKeyword = keywordTest.test(sanitizedWord.toLowerCase())
+        if (hasKeyword) {
+            for (let i = 0; i < articlekeywords.length;i++) {
+                const kw = articlekeywords[i]
+                if (keywordTest.test(kw.keyword.toLowerCase())) {
+                    articlekeywords[i].occurrences++
                 }
-                return hasKeyword
-            }))), (qoute) => {
-                let kw = filter(map(keywords, (keyword) => ({
-                    keyword: keyword,
-                    occurrences: countBy(qoute.split(' '), (word) => word === keyword)
-                })), (o) => o.occurrences.true)
-                kw = map(kw, ({ keyword, occurrences }) => ({
-                    keyword,
-                    occurrences: occurrences.true
-                }))
-                return {
-                    value: qoute,
-                    keywords: kw
-                }
-            })
-            const articleData = {
-                articleName: article.source.name,
-                articleUrl: article.url,
-                qoutes,
-                keywords: filter(articlekeywords, (kw) => kw.occurrences > 0)
             }
-            articles.push(articleData)
-            console.log(articleData)
-        })
+        }
+        return hasKeyword
+    }))), (qoute) => {
+        let kw = filter(map(keywords, (keyword) => ({
+            keyword: keyword,
+            occurrences: countBy(qoute.split(' '), (word) => word === keyword)
+        })), (o) => o.occurrences.true)
+        kw = map(kw, ({ keyword, occurrences }) => ({
+            keyword,
+            occurrences: occurrences.true
+        }))
+        return {
+            value: qoute,
+            keywords: kw
+        }
     })
-})
+    return {
+        articleName: article.source.name,
+        articleUrl: article.url,
+        qoutes,
+        keywords: filter(articlekeywords, (kw) => kw.occurrences > 0)
+    }
+}
+
+
+if (!fs.existsSync('./data')) {
+    fs.mkdirSync('./data')
+}
+
+if (!fs.existsSync('./data/queries')) {
+    fs.mkdirSync('./data/queries')
+}
+
+if (!fs.existsSync('./data/articles')) {
+    fs.mkdirSync('./data/articles')
+}
+
+async function makeQuery(keywords) {
+    const lastMonth = new Date()
+    lastMonth.setMonth(lastMonth.getMonth())
+    const query = {
+        q: keywords.join(' '),
+        from: `${lastMonth.getFullYear()}-${lastMonth.getMonth()}-${lastMonth.getDate()}`,
+        pageSize: 5,
+        sortBy: 'relevancy'
+    }
+    const hash = createHash('md5').update(JSON.stringify(query)).digest('hex').substr(0, 32)
+    const queryResults = await new Promise(async (resolve, rej) => {
+        const queryPath = `./data/queries/${hash}`
+        if (fs.existsSync(queryPath)) {
+            const file = jsonfile.readFileSync(queryPath)
+            return resolve(file)
+        } else {
+            const response = await newsapi.v2.everything(query)
+            fs.writeFileSync(queryPath, JSON.stringify(response))
+            return resolve(response)
+        }
+    })
+    each(queryResults.articles, async (article) => {
+        const hash = createHash('md5').update(article.url).digest('hex').substr(0, 32)
+        const articlePath = `./data/articles/${hash}`
+        const articleResult = await new Promise((resolve, reject) => {
+            if (fs.existsSync(articlePath)) {
+                const file = jsonfile.readFileSync(articlePath)
+                return resolve(file)
+            }
+            fetch.fetchUrl(article.url, (error, meta, body) => {
+                const articleData = getArticleData(article, body, keywords)
+                fs.writeFileSync(articlePath, JSON.stringify(articleData))
+                return resolve(articleData)
+            })
+        })
+        console.log(articleResult)
+    })
+}
+
+const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
+makeQuery(keywords)

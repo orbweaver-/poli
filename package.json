@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/orbweaver-/poli#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "fetch": "^1.1.0",
+    "jsonfile": "^5.0.0",
     "lodash": "^4.17.11",
     "newsapi": "^2.4.0",
     "parse5": "^5.1.0"
