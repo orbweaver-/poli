@@ -82,6 +82,7 @@ if (!fs.existsSync('./data/articles')) {
 
 async function makeQuery(keywords) {
     const lastMonth = new Date()
+    const articles = []
     lastMonth.setMonth(lastMonth.getMonth())
     const query = {
         q: keywords.join(' '),
@@ -115,8 +116,9 @@ async function makeQuery(keywords) {
                 return resolve(articleData)
             })
         })
-        console.log(articleResult)
+        articles.push(article)
     })
+    return articles
 }
 
 const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
