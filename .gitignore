@@ -6,3 +6,5 @@ link/parse
 link/obj/
 .vscode
 !link/data
+link/jsmn/jsmn.o
+link/jsmn/libjsmn.a
