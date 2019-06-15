@@ -406,10 +406,10 @@ FILE *old_dictopen(char *dictname, char *filename, char *how) {
 
 
     if (dictpath == NULL) {
-	printf("   Opening %s\n", filename); 
+	// printf("   Opening %s\n", filename); 
 	return (fopen(filename, how));
     } else if ((fp = fopen(filename, how)) != NULL) {
-	printf("   Opening %s\n", filename);
+	// printf("   Opening %s\n", filename);
 	return fp;
     }
     
@@ -422,7 +422,7 @@ FILE *old_dictopen(char *dictname, char *filename, char *how) {
 	*(completename+(pos-oldpos)) = '/';
 	strcpy(completename+(pos-oldpos)+1,filename);
 	if ((fp = fopen(completename, how)) != NULL) {
-	    printf("   Opening %s\n", completename); 
+	    // printf("   Opening %s\n", completename); 
 	    return fp;
 	}
 	oldpos = pos+1;
@@ -432,7 +432,7 @@ FILE *old_dictopen(char *dictname, char *filename, char *how) {
     *(completename+(pos-oldpos)) = '/';
     strcpy(completename+(pos-oldpos)+1,filename);
     fp = fopen(completename,how);
-    printf("   Opening %s\n", completename); 
+    // printf("   Opening %s\n", completename); 
     return fp;
 }
 
@@ -507,7 +507,7 @@ FILE *dictopen(char *dictname, char *filename, char *how) {
 	*(completename+(pos-oldpos)) = '/';
 	strcpy(completename+(pos-oldpos)+1,filename);
 	if ((fp = fopen(completename, how)) != NULL) {
-	    printf("   Opening %s\n", completename); 
+	    // printf("   Opening %s\n", completename); 
 	    return fp;
 	}
 	oldpos = pos+1;
