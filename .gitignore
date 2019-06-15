@@ -2,5 +2,7 @@ node_modules
 run.sh
 data/
 main.o
-parse
+link/parse
 link/obj/
+.vscode
+!link/data
