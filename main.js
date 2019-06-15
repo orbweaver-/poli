@@ -123,3 +123,23 @@ async function makeQuery(keywords) {
 
 const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
 makeQuery(keywords)
+
+// parser sentence schema
+// var a = {
+//     sentence: string,
+//     words: [
+//         {
+//             id: number,
+//             value: string,
+//             links:  [
+//                 {
+//                     id: number,
+//                     domains: string[],
+//                     label: string,
+//                     rightLabel: string,
+//                     leftLabel: string
+//                 }
+//             ]
+//         }
+//     ]
+// }

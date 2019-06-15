@@ -14,17 +14,29 @@ void diagram_test() {
     opts  = parse_options_create();
     dict  = dictionary_create("4.0.dict", "4.0.knowledge", NULL, "4.0.affix");
 
-    for (i=0; i<2; ++i) {
-        sent = sentence_create(input_string[i], dict);
-        num_linkages = sentence_parse(sent, opts);
-        if (num_linkages > 0) {
-            linkage = linkage_create(0, sent, opts);
-            printf("%s\n", diagram = linkage_print_links_and_domains(linkage));
-            string_delete(diagram);
-            linkage_delete(linkage);
-        }
+    sent = sentence_create(input_string[0], dict);
+    num_linkages = sentence_parse(sent, opts);
+    if (num_linkages == 0) {
         sentence_delete(sent);
+        dictionary_delete(dict);
+        parse_options_delete(opts);
+        return;
     }
+
+    linkage = linkage_create(0, sent, opts);
+    // TODO: Create JSON file...
+
+    // for (i=0; i<2; ++i) {
+    //     sent = sentence_create(input_string[i], dict);
+    //     num_linkages = sentence_parse(sent, opts);
+    //     if (num_linkages > 0) {
+    //         linkage = linkage_create(0, sent, opts);
+    //         printf("%s\n", diagram = linkage_print_links_and_domains(linkage));
+    //         string_delete(diagram);
+    //         linkage_delete(linkage);
+    //     }
+    //     sentence_delete(sent);
+    // }
 
     dictionary_delete(dict);
     parse_options_delete(opts);
