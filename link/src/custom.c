@@ -48,29 +48,35 @@ void diagram_test(int argc, char * argv[]) {
         char domains[20] = "[";
         for (int j=0; j<linkage_get_link_num_domains(linkage, i); j++) {
             char tmp[7];
-            sprintf(tmp, "\"%s\", ", dname[j]);
+            sprintf(tmp, "\"%s\"", dname[j]);
             strcat(domains, tmp);
+            if (j < linkage_get_link_num_domains(linkage, i) - 1) {
+                strcat(domains, ", ");
+            }
         }
         strcat(domains, "]");
 
         char link[5000];
         sprintf(link, "\
     {\n\
-        id: %d,\n\
-        leftWord: \"%s\",\n\
-        rightWord: \"%s\",\n\
-        label: \"%s\",\n\
-        leftLabel: \"%s\",\n\
-        rightLabel: \"%s\",\n\
-        domains: %s\n\
-    },\n", i, left, right, label, llabel, rlabel, domains);
+        \"id\": %d,\n\
+        \"leftWord\": \"%s\",\n\
+        \"rightWord\": \"%s\",\n\
+        \"label\": \"%s\",\n\
+        \"leftLabel\": \"%s\",\n\
+        \"rightLabel\": \"%s\",\n\
+        \"domains\": %s\n\
+    }", i, left, right, label, llabel, rlabel, domains);
+        if (i < linkage_get_num_links(linkage) - 1) {
+            strcat(link, ",\n");
+        }
         strcat(links, link);
     }
     char json[1000000]; 
     sprintf(json, "\
 {\n\
-    sentence: \"%s\",\n\
-    links: [\n\
+    \"sentence\": \"%s\",\n\
+    \"links\": [\n\
 %s\
     ]\n\
 }", s, links);

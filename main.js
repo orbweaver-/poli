@@ -4,10 +4,23 @@ const { createHash } = require('crypto')
 const jsonfile = require('jsonfile')
 const fs = require('fs')
 const { parse } = require('parse5')
+const { exec } = require('child_process')
 const { filter, each, find, map, countBy, sumBy } = require('lodash')
 const apikey = process.argv[2]
 if (apikey === undefined) return console.error('News API key must be first argument')
 const newsapi = new NewsAPI(apikey)
+
+async function getLinkage(sentence) {
+    return new Promise((resolve, reject) => {
+        exec('./parse "' + sentence + '"', { cwd: './link' }, (err, stdout, stderr) => {
+            if (err) {
+              reject(err)
+              return;
+            }
+            resolve(JSON.parse(stdout))
+        });
+    })
+}
 
 function getNodes(document) {
     const nodes = []
@@ -122,7 +135,12 @@ async function makeQuery(keywords) {
 }
 
 const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
-makeQuery(keywords)
+// makeQuery(keywords)
+
+async function fn() {
+    console.log(await getLinkage("This is working"))
+}
+fn()
 
 // parser sentence schema
 // var a = {
