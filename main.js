@@ -14,8 +14,9 @@ async function getLinkage(sentence) {
     return new Promise((resolve, reject) => {
         exec('./parse "' + sentence + '"', { cwd: './link' }, (err, stdout, stderr) => {
             if (err) {
-              reject(err)
-              return;
+                console.log(err)
+                reject(err)
+                return;
             }
             resolve(JSON.parse(stdout))
         });
@@ -134,13 +135,11 @@ async function makeQuery(keywords) {
     return articles
 }
 
-const keywords = ['president', 'trump', 'antitrust', 'probe', 'google', 'facebook']
-// makeQuery(keywords)
-
-async function fn() {
-    console.log(await getLinkage("This is working"))
+async function fn(sentence) {
+    const linkage = await getLinkage(sentence)
+    console.log(linkage)
 }
-fn()
+fn("This is working")
 
 // parser sentence schema
 // var a = {
