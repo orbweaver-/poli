@@ -1,6 +1,6 @@
 #include "link-includes.h"
 
-void diagram_test() {
+void diagram_test(int argc, char * argv[]) {
     verbosity = 0;
     Dictionary    dict;
     Parse_Options opts;
@@ -8,14 +8,12 @@ void diagram_test() {
     Linkage       linkage;
     char *        diagram;
     int           i, num_linkages;
-    char *        input_string[] = {
-       "Grammar is useless because there is nothing to say",
-       "Computers are useless; they can only give you answers"};
+    char *        input_string = "Grammar is useless because there is nothing to say";
 
     opts  = parse_options_create();
     dict  = dictionary_create("4.0.dict", "4.0.knowledge", NULL, "4.0.affix");
 
-    char * s = input_string[0];
+    char * s = argc > 1 ? argv[1] : input_string;
     sent = sentence_create(s, dict);
     num_linkages = sentence_parse(sent, opts);
     if (num_linkages == 0) {

@@ -421,7 +421,7 @@ int main(int argc, char * argv[]) {
     reported_leak = external_space_in_use = 0;
     verbosity = parse_options_get_verbosity(opts);
 
-	diagram_test();
+	diagram_test(argc, argv);
 
     // while (fget_input_string(input_string, stdin, stdout, opts)) {
 
