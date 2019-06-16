@@ -73,7 +73,7 @@ void diagram_test() {
 {\n\
     sentence: \"%s\",\n\
     links: [\n\
-%s\n\
+%s\
     ]\n\
 }", s, links);
     printf(json);

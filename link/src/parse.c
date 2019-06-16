@@ -312,47 +312,47 @@ int main(int argc, char * argv[]) {
 
 	verbosity = 0;
     i = 1;
-    if ((argc > 1) && (argv[1][0] != '-')) {
-	/* the dictionary is the first argument if it doesn't begin with "-" */
-	dictionary_file = argv[1];	
-	i++;
-    }
+    // if ((argc > 1) && (argv[1][0] != '-')) {
+	// /* the dictionary is the first argument if it doesn't begin with "-" */
+	// dictionary_file = argv[1];	
+	// i++;
+    // }
 
-    for (; i<argc; i++) {
-	if (argv[i][0] == '-') {
-	    if (strcmp("-pp", argv[i])==0) {
-		if ((post_process_knowledge_file != NULL) || (i+1 == argc)) 
-		  print_usage(argv[0]);
-		post_process_knowledge_file = argv[i+1];
-		i++;
-	    } else 
-	    if (strcmp("-c", argv[i])==0) {
-		if ((constituent_knowledge_file != NULL) || (i+1 == argc)) 
-		  print_usage(argv[0]);
-		constituent_knowledge_file = argv[i+1];
-		i++;
-	    } else 
-	    if (strcmp("-a", argv[i])==0) {
-		if ((affix_file != NULL) || (i+1 == argc)) print_usage(argv[0]);
-		affix_file = argv[i+1];
-		i++;
-	    } else if (strcmp("-ppoff", argv[i])==0) {
-		pp_on = FALSE;
-	    } else if (strcmp("-coff", argv[i])==0) {
-		cons_on = FALSE;
-	    } else if (strcmp("-aoff", argv[i])==0) {
-		af_on = FALSE;
-	    } else if (strcmp("-batch", argv[i])==0) {
-	    } else if (strncmp("-!", argv[i],2)==0) {
-	    } else {
-		print_usage(argv[0]);		
-	    }
-	} else {
-	    print_usage(argv[0]);
-	}
-    }
+    // for (; i<argc; i++) {
+	// if (argv[i][0] == '-') {
+	//     if (strcmp("-pp", argv[i])==0) {
+	// 	if ((post_process_knowledge_file != NULL) || (i+1 == argc)) 
+	// 	  print_usage(argv[0]);
+	// 	post_process_knowledge_file = argv[i+1];
+	// 	i++;
+	//     } else 
+	//     if (strcmp("-c", argv[i])==0) {
+	// 	if ((constituent_knowledge_file != NULL) || (i+1 == argc)) 
+	// 	  print_usage(argv[0]);
+	// 	constituent_knowledge_file = argv[i+1];
+	// 	i++;
+	//     } else 
+	//     if (strcmp("-a", argv[i])==0) {
+	// 	if ((affix_file != NULL) || (i+1 == argc)) print_usage(argv[0]);
+	// 	affix_file = argv[i+1];
+	// 	i++;
+	//     } else if (strcmp("-ppoff", argv[i])==0) {
+	// 	pp_on = FALSE;
+	//     } else if (strcmp("-coff", argv[i])==0) {
+	// 	cons_on = FALSE;
+	//     } else if (strcmp("-aoff", argv[i])==0) {
+	// 	af_on = FALSE;
+	//     } else if (strcmp("-batch", argv[i])==0) {
+	//     } else if (strncmp("-!", argv[i],2)==0) {
+	//     } else {
+	// 	print_usage(argv[0]);		
+	//     }
+	// } else {
+	//     print_usage(argv[0]);
+	// }
+    // }
 
-    if (!pp_on && post_process_knowledge_file != NULL) print_usage(argv[0]);
+    // if (!pp_on && post_process_knowledge_file != NULL) print_usage(argv[0]);
 
     if (dictionary_file == NULL) {
 	dictionary_file = "4.0.dict";
@@ -405,17 +405,17 @@ int main(int argc, char * argv[]) {
     }
 
     /* process the command line like commands */
-    for (i=1; i<argc; i++) {
-	if ((strcmp("-pp", argv[i])==0) || 
-	    (strcmp("-c", argv[i])==0) || 
-	    (strcmp("-a", argv[i])==0)) {
-	  i++;
-	} else if ((argv[i][0] == '-') && (strcmp("-ppoff", argv[i])!=0) &&
-		   (argv[i][0] == '-') && (strcmp("-coff", argv[i])!=0) &&
-		   (argv[i][0] == '-') && (strcmp("-aoff", argv[i])!=0)) {
-	  issue_special_command(argv[i]+1, opts, dict);
-	}
-    }
+    // for (i=1; i<argc; i++) {
+	// if ((strcmp("-pp", argv[i])==0) || 
+	//     (strcmp("-c", argv[i])==0) || 
+	//     (strcmp("-a", argv[i])==0)) {
+	//   i++;
+	// } else if ((argv[i][0] == '-') && (strcmp("-ppoff", argv[i])!=0) &&
+	// 	   (argv[i][0] == '-') && (strcmp("-coff", argv[i])!=0) &&
+	// 	   (argv[i][0] == '-') && (strcmp("-aoff", argv[i])!=0)) {
+	//   issue_special_command(argv[i]+1, opts, dict);
+	// }
+    // }
 
     dictionary_and_option_space = space_in_use;  
     reported_leak = external_space_in_use = 0;
