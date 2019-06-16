@@ -1,6 +1,7 @@
 #include "link-includes.h"
 
 void diagram_test() {
+    verbosity = 0;
     Dictionary    dict;
     Parse_Options opts;
     Sentence      sent;

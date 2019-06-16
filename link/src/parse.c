@@ -310,7 +310,7 @@ int main(int argc, char * argv[]) {
     Label           label = NO_LABEL;  
     int             parsing_space_leaked, reported_leak, dictionary_and_option_space;
 
-
+	verbosity = 0;
     i = 1;
     if ((argc > 1) && (argv[1][0] != '-')) {
 	/* the dictionary is the first argument if it doesn't begin with "-" */
@@ -356,25 +356,25 @@ int main(int argc, char * argv[]) {
 
     if (dictionary_file == NULL) {
 	dictionary_file = "4.0.dict";
-        fprintf(stderr, "No dictionary file specified.  Using %s.\n", 
-		dictionary_file);
+        // fprintf(stderr, "No dictionary file specified.  Using %s.\n", 
+		// dictionary_file);
     }
 
     if (af_on && affix_file == NULL) {
 	affix_file = "4.0.affix";
-        fprintf(stderr, "No affix file specified.  Using %s.\n", affix_file);
+        // fprintf(stderr, "No affix file specified.  Using %s.\n", affix_file);
     }
 
     if (pp_on && post_process_knowledge_file == NULL) {
 	post_process_knowledge_file = "4.0.knowledge";
-        fprintf(stderr, "No post process knowledge file specified.  Using %s.\n",
-		post_process_knowledge_file);
+        // fprintf(stderr, "No post process knowledge file specified.  Using %s.\n",
+		// post_process_knowledge_file);
     }
 
     if (cons_on && constituent_knowledge_file == NULL) {
         constituent_knowledge_file = "4.0.constituent-knowledge"; 
-	fprintf(stderr, "No constituent knowledge file specified.  Using %s.\n", 
-		constituent_knowledge_file);
+	// fprintf(stderr, "No constituent knowledge file specified.  Using %s.\n", 
+		// constituent_knowledge_file);
     }
 
     opts = parse_options_create();

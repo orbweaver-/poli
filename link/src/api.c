@@ -435,9 +435,9 @@ void dictionary_open_constituent_knowledge(Dictionary dict, char * cons_file) {
 
 int dictionary_delete(Dictionary dict) {
 
-    if (verbosity > 0) {
-	fprintf(stderr, "Freeing dictionary %s\n", dict->name);
-    }
+    // if (verbosity > 0) {
+	// fprintf(stderr, "Freeing dictionary %s\n", dict->name);
+    // }
 
     if (dict->affix_table != NULL) {
         dictionary_delete(dict->affix_table);
