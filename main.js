@@ -11,8 +11,17 @@ if (apikey === undefined) return console.error('News API key must be first argum
 const newsapi = new NewsAPI(apikey)
 
 async function getLinkage(sentence) {
+    await new Promise((resolve, reject) => {
+        const data = new Uint8Array(Buffer.from(sentence))
+        fs.writeFile('link/input.txt', data, (err) => {
+            if (err) return reject()
+            resolve()
+        })
+    })
+    
+
     return new Promise((resolve, reject) => {
-        exec('./parse "' + sentence + '"', { cwd: './link' }, (err, stdout, stderr) => {
+        exec('./parse', { cwd: './link' }, (err, stdout, stderr) => {
             if (err) {
                 console.log(err)
                 reject(err)
@@ -139,7 +148,13 @@ async function fn(sentence) {
     const linkage = await getLinkage(sentence)
     console.log(linkage)
 }
-fn("This is working")
+// Quote:
+// it was announced by the Wall Street Journal that President Trump is launching 
+// massive antitrust probe not just of Google but of Facebook and others now
+// 
+// Question:
+// Did President Trump Launch an antitrust probe into google and facebook
+fn("Did President Trump Launch an antitrust probe into google and facebook.")
 
 // parser sentence schema
 // var a = {

@@ -1,6 +1,7 @@
 #include "link-includes.h"
 
 void diagram_test(int argc, char * argv[]) {
+    // SETUP
     verbosity = 0;
     Dictionary    dict;
     Parse_Options opts;
@@ -8,13 +9,23 @@ void diagram_test(int argc, char * argv[]) {
     Linkage       linkage;
     char *        diagram;
     int           i, num_linkages;
-    char *        input_string = "Grammar is useless because there is nothing to say";
+    char *        input_string = (char*) malloc(1024*sizeof(char));
+    // input_string = "Grammar is useless because there is nothing to say";
 
     opts  = parse_options_create();
     dict  = dictionary_create("4.0.dict", "4.0.knowledge", NULL, "4.0.affix");
 
-    char * s = argc > 1 ? argv[1] : input_string;
-    sent = sentence_create(s, dict);
+    // READ INPUT FILE
+    FILE *fp;
+    char* buff = (char*) malloc(1024*sizeof(char));
+
+    fp = fopen("input.txt", "r");
+    fgets(buff, 1024, (FILE*)fp);
+    fclose(fp);
+    strcpy(input_string, buff);
+
+    // CREATE LINKAGE
+    sent = sentence_create(input_string, dict);
     num_linkages = sentence_parse(sent, opts);
     if (num_linkages == 0) {
         sentence_delete(sent);
@@ -79,7 +90,7 @@ void diagram_test(int argc, char * argv[]) {
     \"links\": [\n\
 %s\
     ]\n\
-}", s, links);
+}", input_string, links);
     printf(json);
 
     dictionary_delete(dict);

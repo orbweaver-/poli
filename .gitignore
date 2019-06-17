@@ -8,3 +8,4 @@ link/obj/
 !link/data
 link/jsmn/jsmn.o
 link/jsmn/libjsmn.a
+link/input.txt
