@@ -153,8 +153,8 @@ async function fn(sentence) {
 // massive antitrust probe not just of Google but of Facebook and others now
 // 
 // Question:
-// Did President Trump Launch an antitrust probe into google and facebook
-fn("Did President Trump Launch an antitrust probe into google and facebook.")
+// Did President Trump Launch an antitrust probe into google and facebook?
+fn("Did President Trump launch an antitrust probe into google and facebook?")
 
 // parser sentence schema
 // var a = {

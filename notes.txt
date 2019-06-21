@@ -34,3 +34,7 @@ number of hits for each keyword
 
 Diagram sentences for better input
 https://www.link.cs.cmu.edu/link/index.html
+
+Input sentence
+Find Keywords: parser -> tensorflow to determine
+Get article data from keywords

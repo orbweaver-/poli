@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/orbweaver-/poli#readme",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^1.2.1",
     "crypto": "^1.0.1",
     "fetch": "^1.1.0",
     "jsonfile": "^5.0.0",
